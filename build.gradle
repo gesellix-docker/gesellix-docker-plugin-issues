@@ -3,6 +3,24 @@ import de.gesellix.gradle.docker.tasks.*
 import static groovy.json.JsonOutput.prettyPrint
 import static groovy.json.JsonOutput.toJson
 
+/*
+buildscript {
+  repositories {
+    mavenLocal()
+    jcenter()
+    maven { url 'http://dl.bintray.com/gesellix/docker-utils' }
+    maven { url "https://plugins.gradle.org/m2/" }
+  }
+// works with Gradle < 2.1
+//  dependencies {
+//    classpath 'com.github.ben-manes:gradle-versions-plugin:0.9'
+//    classpath 'de.gesellix:gradle-docker-plugin:2015-05-06T06-17-42'
+//  }
+}
+//apply plugin: 'com.github.ben-manes.versions'
+//apply plugin: "de.gesellix.docker"
+*/
+
 // works with Gradle 2.1+, for the old configuration see http://plugins.gradle.org/plugin/de.gesellix.docker
 plugins {
 // buildImage, buildAndPush, runContainer works with this version of the plugin:
@@ -10,7 +28,8 @@ plugins {
 
 // deployToServer works with these versions, but buildImage breaks:
 //id "de.gesellix.docker" version "2015-04-11T22-32-01"
-  id "de.gesellix.docker" version "2015-04-22T09-44-36"
+//id "de.gesellix.docker" version "2015-04-22T09-44-36"
+  id "de.gesellix.docker" version "2015-05-06T06-17-42"
 }
 
 // only to help IntelliJ recognize the imports for the Docker*Task classes
@@ -99,9 +118,9 @@ task rmImage(type: DockerRmiTask) {
 }
 
 task copyWARToBuildContext(type: Copy) {
-// Copy the .war file into the docker directory. 
-  from 'build/libs'
-  into 'docker'
+  // Copy the .war file into the docker directory.
+  from war
+  into file('./docker/')
   include '*.war'
 }
 
